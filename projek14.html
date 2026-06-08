@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>project 14</title>
+</head>
+<body>
+
+<h2>Struktur Organisasi</h2>
+
+<input type="text" id="atasan" placeholder="Atasan">
+<input type="text" id="jabatan" placeholder="Jabatan">
+<button onclick="tambah()">Tambah</button>
+<button onclick="tampilTraversal()">Traversal</button>
+
+<div id="output"></div>
+
+<script>
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.children = [];
+    }
+}
+
+let root = null;
+
+function cari(node, nama) {
+    if (node.data === nama) return node;
+
+    for (let anak of node.children) {
+        let hasil = cari(anak, nama);
+        if (hasil) return hasil;
+    }
+
+    return null;
+}
+
+function tambah() {
+    let atasan = document.getElementById("atasan").value;
+    let jabatan = document.getElementById("jabatan").value;
+
+    if (!jabatan) return alert("Isi jabatan!");
+
+    if (root === null) {
+        root = new Node(jabatan);
+    } else {
+        let parent = cari(root, atasan);
+
+        if (!parent) return alert("Atasan tidak ditemukan!");
+
+        parent.children.push(new Node(jabatan));
+    }
+
+    tampil();
+}
+
+function buatTree(node) {
+    let html = "<ul><li>" + node.data;
+
+    for (let anak of node.children) {
+        html += buatTree(anak);
+    }
+
+    html += "</li></ul>";
+
+    return html;
+}
+
+function tampil() {
+    if (root) {
+        document.getElementById("output").innerHTML = buatTree(root);
+    }
+}
+
+function preorder(node, hasil = []) {
+    hasil.push(node.data);
+
+    for (let anak of node.children) {
+        preorder(anak, hasil);
+    }
+
+    return hasil;
+}
+
+function tampilTraversal() {
+    if (!root) return;
+
+    alert(preorder(root).join(" → "));
+}
+</script>
+
+</body>
+</html>
