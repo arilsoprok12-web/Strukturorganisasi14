@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>Struktur Organisasi</h2>
+
 
 <input type="text" id="atasan" placeholder="Atasan">
 <input type="text" id="jabatan" placeholder="Jabatan">
